@@ -23,7 +23,7 @@ class DPLA(object):
         else:
             r = post("https://api.dp.la/v2/api_key/" + email_address)
             if r.status_code == 201:
-                print(r.content)
+                print((r.content))
             else:
                 print("Hmmm...there seems to have been an error.")
 
@@ -130,7 +130,7 @@ class Request(object):
         If multiple fields are specified, a single string is returned
 
         """
-        sf = [urlencode({k:v}) for k,v in searchFields.items() if k in settings.searchable_fields]
+        sf = [urlencode({k:v}) for k,v in list(searchFields.items()) if k in settings.searchable_fields]
         return '&'.join(sf)
 
     def _facetSpatialFormatter(self, spatial_facet):
@@ -165,7 +165,7 @@ class Results(object):
         self.start = response.get('start', None)
         self.items = [doc for doc in response['docs']]
         if response.get('facets', None):
-            self.facets = [{k: v} for k, v in response['facets'].iteritems()]
+            self.facets = [{k: v} for k, v in response['facets'].items()]
 
     def next_page(self):
         params = self.request.params
